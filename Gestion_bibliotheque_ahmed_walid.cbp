@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Gestion_bibliotheque_ahmed_walid" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Gestion_bibliotheque_ahmed_walid" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`mysql_config --cflags`" />
+				</Compiler>
+				<Linker>
+					<Add option="`mysql_config --libs`" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Gestion_bibliotheque_ahmed_walid" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="`pkg-config gtk+-2.0 --cflags`" />
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add option="`pkg-config gtk+-2.0 --libs`" />
+		</Linker>
+		<Unit filename="dialogs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/Admin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/Utilisateur.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/utilisateurs_functions.h" />
+		<Unit filename="inscrire.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_ajout_livre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_gerer_emprunts.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_globale.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_modifier_livre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_details_livre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_utilisateur_creer_emprunt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_utilisateur_details_livre.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="interface_utilisateur_globale.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_utilisateur_profile_modifier.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="login.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="statistqiues.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="user_functions.h" />
+		<Unit filename="user_interfaces.h" />
+		<Unit filename="user_structus.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
