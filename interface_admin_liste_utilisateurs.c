@@ -1,66 +1,62 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include "user_interfaces.h"
+#include <mysql/mysql.h>
+#include "user_structus.h"
+
+//préparer les callbacks********************//
+
+typedef struct Utilisateur Utilisateur;
+typedef struct Emprunt Emprunt;
+typedef struct Livre Livre;
 
 
 
-
-//défenir les callbacks*************
-
-
-void open_fenetre_statistique(GtkButton *button, gpointer user_data)
+void Details_Utilisateurs(GtkButton *button, gpointer user_data)
 {
-   gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des emprunts \n");
-    statistiques(user_data);
+int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
+printf("ici afficher details livre  %d \n",idLivre);
+}
 
+//*******************************************//
+void Editer_Utilisateur(GtkButton *button, gpointer user_data)
+{
+int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
+printf("ici editer livre \n");
+}
+
+void Supprimer_User(GtkButton *button, gpointer user_data)
+{
+
+int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
+printf("ici supprimer livre \n");
 }
 
 
-void open_fenetre_Ajouter_livre(GtkButton *button, gpointer user_data)
-{
-   gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des emprunts \n");
-    Ajout_livre(user_data);
-
-}
 
 
-
-void open_fenetre_gerer_users(GtkButton *button, gpointer user_data)
-{
-gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des utilisateurs \n");
-    interface_admin_gerer_Utilisateurs(user_data);
-
-}
-
-
-
-
-
-void interface_admin_globale (GtkWidget *window)
+void interface_admin_gerer_Utilisateurs( GtkWidget *window)
 {
 
 
 
-
-  //GtkWidget *window,*windows2;
   GtkWidget *vbox,*hbox;
 
-  GtkWidget *toolbar,*button,*label;
+  GtkWidget *toolbar,*button,*label1,*label2;
   GtkWidget *newTb;
   GtkToolItem *openTb;
-  GtkToolItem *saveTb,*liste_users,*statistisue;
+  GtkToolItem *saveTb,*Modifytab,*statistisue;
   GtkToolItem *sep1,*sep2,*sep3,*sep4,*sep5;
   GtkToolItem *exitTb;
   GtkWidget *table;
 GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
-  //gtk_init(&argc, &argv);
+
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -91,17 +87,12 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
   gtk_tool_button_set_label(saveTb,"Ajouter livre");
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), saveTb, -1);
 
-  //asscoier conecter pour ajouter livre
-   g_signal_connect(G_OBJECT(saveTb), "clicked",
-         open_fenetre_Ajouter_livre, NULL);
-
-//*************************************************//
   sep3 = gtk_separator_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep3, -1);
 
-  liste_users = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
-  gtk_tool_button_set_label(liste_users,"Liste utilisateur");
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),liste_users, -1);
+  Modifytab = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
+  gtk_tool_button_set_label(Modifytab,"Liste utilisateur");
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), Modifytab, -1);
 
   sep4 = gtk_separator_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep4, -1);
@@ -142,51 +133,71 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
 /* ********************************************** */
 /* *********************** table ************************ */
-table = gtk_table_new(4, 4, TRUE);
+
+  //************Récuperer la liste des Livres **************//
+  //****************Récupere le nombre de livres********************//
+
+
+
+int x2 =  Nombre_utilisateurs_Totale ();
+struct Utilisateur liste_users[x2];
+ Liste_Utilisateurs(liste_users);
+
+//printf("test svp e5dheem %s  \n",liste_books[0].Titre);
+
+   table = gtk_table_new(x2, 5, TRUE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
   int i,j;
   int pos=0;
-for (i=0; i < 4; i++) {
-    label=gtk_label_new(NULL);
-    gtk_label_set_text(label,"2222");
 
 
-    gtk_table_attach_defaults(GTK_TABLE(table), label, 0,1, i, i+1);
-    for (j=1; j < 4; j++) {
+
+
+
+
+
+
+for (i=0; i < x2; i++) {
+    label1=gtk_label_new(NULL);
+    gtk_label_set_text(label1,liste_users[i].Nom);
+    gtk_table_attach_defaults(GTK_TABLE(table), label1, 0,1, i, i+1);
+    label2=gtk_label_new(NULL);
+    gtk_label_set_text(label2,liste_users[i].Prenom);
+    gtk_table_attach_defaults(GTK_TABLE(table), label2, 1,2, i, i+1);
+    for (j=2; j < 5; j++) {
 
 
      // if(j==1) button = gtk_button_new_from_stock("Details");
-      if(j==1) button = gtk_tool_button_new_from_stock(GTK_STOCK_DIALOG_INFO);
+      if(j==2)
+      {
+      button = gtk_tool_button_new_from_stock(GTK_STOCK_DIALOG_INFO);
+      g_signal_connect (button, "clicked",G_CALLBACK (Details_Utilisateurs),liste_users[i].id_utilisateur);
+      }
        //g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (helloWorld), (gpointer) window);
 
-      if(j==3) button =  gtk_tool_button_new_from_stock(GTK_STOCK_DELETE);
+      if(j==3) {
+      button = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
+      g_signal_connect (button, "clicked",Editer_Utilisateur,liste_users[i].id_utilisateur);
+      }
+      if(j==4)
+      {
+      button =  gtk_tool_button_new_from_stock(GTK_STOCK_DELETE);
+      g_signal_connect (button, "clicked",Supprimer_User,liste_users[i].id_utilisateur);
+      }
       gtk_table_attach_defaults(GTK_TABLE(table), button, j, j+1, i, i+1);
       pos++;
     }
   }
-
-
-//**************************************************************//
-//*************Associer les callbacks********************//
-g_signal_connect (statistisue, "clicked",open_fenetre_statistique,NULL);
-//**************************************************************//
-//g_signal_connect (saveTb, "clicked",open_fenetre_modifier_profile,NULL);
-
-g_signal_connect (liste_users, "clicked",open_fenetre_gerer_users,NULL);
-//*************************************************************//
-      if(j==2) button = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
-//g_signal_connect (Modifytab, "clicked",deconnecter_utilisateur,NULL);
-
-
-
-
-
-
-
 gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 5);
 /* *************************************************** */
+
+//***************Lec callback
   gtk_widget_show_all(window);
+
+
+
+
 
 
 

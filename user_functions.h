@@ -12,7 +12,9 @@ int Nombre_utilisateurs_Totale ();
 int  supprimer_utilisateur(int id_utli);
 //int inscrire( Utilisateur* utili )
 int Nb_emprunts_En_Cours(int iduser) ;
-void liste_Emprunts_Utilisateurs_En_Cours(int idUser);
+liste_Emprunts_Utilisateurs_En_Cours(int idUser,struct Emprunt liste_emprunts[]);
+struct Livre *GetLivre(int idLivre);
+int Getsession();
 
 
 //struct  Livre *Rechercher_livre_ISBN(char * ISBN)

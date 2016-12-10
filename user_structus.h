@@ -11,7 +11,7 @@ struct Utilisateur
    char  email[50];
     char  mot_passe[50];
      char  adresse[50];
-      char  nb_emprunts[50];
+     int  nb_emprunts;
        char  num_tel[50];
         char  Num_Cin[50];
 char  login[50];

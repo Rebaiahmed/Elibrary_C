@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <mysql/mysql.h>
+#include <regex.h>
 #include "user_structus.h"
 
 GtkWidget *entry_CIN,*entry_nom,*entry_prenom,*entry_email,*entry_motdepasse,*entry_adresse,*entry_num_tel,*entry_login;
@@ -18,6 +19,7 @@ void inscrire_user(GtkButton *button, gpointer user_data)
   gchar *adresse;
   gchar *num_tel;
 
+GtkWidget *win = NULL;
 
  //Récuperer les champs
    numcin = gtk_entry_get_text(GTK_ENTRY (entry_CIN));
@@ -28,9 +30,24 @@ void inscrire_user(GtkButton *button, gpointer user_data)
    adresse = gtk_entry_get_text(GTK_ENTRY (entry_adresse));
    num_tel= gtk_entry_get_text(GTK_ENTRY (entry_num_tel));
    login = gtk_entry_get_text(GTK_ENTRY (entry_login));
-//préparer le structure par ces valeurs
 
-//printf("the data are %s %s %s %s %s %s %s %s \n ",numcin,nom,prenom,email,login,mot_passe,adresse,num_tel);
+
+
+   //*****valider les champs
+
+
+   if(strlen(numcin)==0 || strlen(nom)==0 || strlen(prenom)==0 || strlen(prenom)==0 || strlen(email)==0 || strlen(mot_passe)==0
+   || strlen(adresse)==0 || strlen(num_tel)==0 || strlen(login)==0)
+   {
+
+
+   printf("données invalides \n");
+   dialog_erreur_inscrire_donnees(win);
+
+   }
+
+   else{
+
 
 struct Utilisateur *uti = malloc(sizeof *uti);
 
@@ -42,16 +59,10 @@ strcpy( uti->num_tel,num_tel);
 strcpy( uti->mot_passe,mot_passe);
 strcpy( uti->email,email);
 strcpy( uti->login,login);
-//enrgister l'utilisateur
-
-//printf("the data are %s %s %s %s  \n ",uti->Nom,uti->Num_Cin,uti->Prenom);
-
-
+//****récupere le resulta d'inscription
 int res = inscrire(uti);
 
 
-printf("the res are %d \n", res);
-GtkWidget *win = NULL;
 if(res !=-1)
 {
  gtk_widget_hide(user_data);
@@ -63,14 +74,18 @@ else
 {
 //Dialog d'erreur du message !!!!!!!!
 printf("login déja utilisée \n");
+dialog_erreur_inscrire_login(win);
 
 }
 
-//si resulta de l'inscription 1 alors affciher interface_utilisateur_globale si non affciher erreur
+
+   }
 
 
 
-//gtk_widget_hide(p);
+
+
+
 }
 
 
@@ -79,7 +94,7 @@ printf("login déja utilisée \n");
 
 
 
-
+//**********************************************//
 
 
 

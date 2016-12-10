@@ -19,6 +19,10 @@ typedef struct Livre Livre;
 
 
 printf("hello bouhmid \n");
+//SaveUser(10);
+//int a = Getsession();
+
+
 
 /*int x =  Nb_emprunts_En_Cours(1);
 struct Emprunt liste_emprunts[x];
@@ -33,17 +37,39 @@ printf("le nombre d'emprutns en cours est %d \n",x);
 struct Livre liste_books[x2];
 printf("le nombre de livres totale est %d \n",x2);
 
- liste_Livres(liste_books);*/
 
- interface_admin_gerer_livres(win);
+
+ liste_Livres(liste_books);*/
+ /*Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(1);
+printf("the book is %d \n",book->id_livre);*/
+
+int x2 =  Nombre_utilisateurs_Totale ();
+struct Utilisateur liste_users[x2];
+ Liste_Utilisateurs(liste_users);
+
+
+
+/*Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+user = getCurrentUser(1);*/
+
+
+
+
+
+//details_livre(win);
+
+ //interface_admin_gerer_livres(win);
+ //admin_modifier_livre(win);
 
 //printf("test svp e5dheem %s  \n",liste_books[0].Titre);
 
+//dialog_erreur_login(win);
 
-//interface_utilisateur_globale(win);
+//Interface_utilisateur_liste_emprunts(win);
 //interface_utilisateur_globale(win);
 //interface_admin_globale(win);
-//login_interface(win);
+login_interface(win);
 //modifier_profile_utilisateur(win);
   //interface_utilisateur_globale(win);
     //interface_admin_globale(win);

@@ -2,7 +2,9 @@
 #include <gtk/gtk.h>
 #include "user_interfaces.h"
 #include "user_functions.h"
+#include "user_structus.h"
 
+typedef struct Utilisateur Utilisateur;
 
 GtkWidget *entry_CIN,*entry_nom,*entry_prenom,*entry_email,*entry_motdepasse,*entry_adresse,*entry_num_tel;
 
@@ -31,6 +33,24 @@ printf("we will modify our profile \n");
    adresse = gtk_entry_get_text(GTK_ENTRY (entry_adresse));
    num_tel= gtk_entry_get_text(GTK_ENTRY (entry_num_tel));
 //préparer le structure par ces valeurs
+//*******************Valider la formulaire
+GtkWidget *win = NULL;
+
+if(strlen(numcin)==0 || strlen(nom)==0 || strlen(prenom)==0 || strlen(email)==0 || strlen(mot_passe)==0 || strlen(adresse)==0
+|| strlen(num_tel)==0)
+{
+printf("vous devez remplir tous les champ \n");
+
+dialog_erreur_inscrire_donnees(win);
+
+
+
+
+}
+
+else
+
+{
 
 struct Utilisateur *uti = malloc(sizeof *uti);
 
@@ -46,6 +66,19 @@ strcpy( uti->email,email);
 
 int res = Modifier_Profile(uti);
 printf("we will modify our profile \n");
+
+if(res!=-1)
+{
+printf("succes de modification \n");
+dialog_succes_modification(win);
+}
+
+
+}
+
+
+
+
 
 }
 
@@ -108,8 +141,25 @@ gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
        gtk_fixed_put(GTK_FIXED(fixed),label_num_tel,170,350);
        /*  ***************************** */
 
+    //*******************Récuper l'utilisateur courant***********************//
+
+    int idUser = Getsession();
+printf("teh currentUser is %d \n",idUser);
+ Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+user = getCurrentUser(idUser);
+printf("ou data from user are %d , %s  \n",user->id_utilisateur,user->login);
+
+
+
+
+
+
+
        /* gestion des zones des textes */
        entry_CIN=gtk_entry_new();
+
+       gtk_entry_append_text (entry_CIN,"04848993");
+
        gtk_fixed_put(GTK_FIXED(fixed),entry_CIN,280,170);
        gtk_widget_set_size_request(entry_CIN, 170, 25);
 

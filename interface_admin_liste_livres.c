@@ -14,17 +14,26 @@ typedef struct Livre Livre;
 void Details_Livre(GtkButton *button, gpointer user_data)
 {
 int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
 printf("ici afficher details livre  %d \n",idLivre);
 }
 
 //*******************************************//
 void Editer_Livre(GtkButton *button, gpointer user_data)
 {
+int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
 printf("ici editer livre \n");
 }
 
 void Supprimer_Livre(GtkButton *button, gpointer user_data)
 {
+
+int idLivre = atoi(user_data);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
 printf("ici supprimer livre \n");
 }
 
@@ -171,12 +180,12 @@ for (i=0; i < x; i++) {
 
       if(j==3) {
       button = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
-      g_signal_connect (button, "clicked",Editer_Livre, window);
+      g_signal_connect (button, "clicked",Editer_Livre,liste_books[i].id_livre);
       }
       if(j==4)
       {
       button =  gtk_tool_button_new_from_stock(GTK_STOCK_DELETE);
-      g_signal_connect (button, "clicked",Supprimer_Livre, window);
+      g_signal_connect (button, "clicked",Supprimer_Livre,liste_books[i].id_livre);
       }
       gtk_table_attach_defaults(GTK_TABLE(table), button, j, j+1, i, i+1);
       pos++;

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <mysql/mysql.h>
+#include <regex.h>
 #include "connect_database.h"
 #include "../user_structus.h"
 
@@ -87,10 +88,15 @@ printf("we are here \n");
   sprintf(querry,"insert into Utilisateur Values('%d','%s','%s','%s','%s','%s','%d','%s','%s','%s','%d');",
     NULL,utili->Nom,utili->Prenom,utili->login,utili->email,utili->mot_passe,utili->adresse,0,utili->num_tel,utili->Num_Cin,0);
 
-int x = mysql_query(con, querry);
-printf("the result %d \n", x);
+res = mysql_query(con, querry);
+printf("the result %d \n", res);
 
-res = x;
+int id = mysql_insert_id(con);
+
+printf("The last inserted row id is: %d\n", id);
+
+SaveUser(id);
+
 
 
 
@@ -119,19 +125,12 @@ int login(char * log , char * pass)
     Connectdb(con);
     int res = 0;
     unsigned int i = 0;
-        unsigned int num_champs = 0;
-
-    /*char querry[100];
-    printf("our data is %s , %s \n", login,pass);
-    sprintf(querry,"%s%s","SELECT * FROM Utilisateur WHERE email='",login,"' and mot_passe='",pass,"';");*/
-
-    char query[300];
+    unsigned int num_champs = 0;
 
 
-//sprintf(query, "SELECT * FROM Utilisateur WHERE email= ('%s') and mot_passe= ('%s') ",pass,pass);
- sprintf(query,"select * from Utilisateur where login='%s' and mot_passe ='%s'",log,pass);
+char query[300];
 
-
+sprintf(query,"select * from Utilisateur where login='%s' and mot_passe ='%s'",log,pass);
 mysql_query(con,query);
 MYSQL_RES *result = mysql_store_result(con);
 MYSQL_ROW row=mysql_fetch_row(result);
@@ -145,7 +144,12 @@ res = -1 ;
 printf("row are %s %s %s %s %s %s %s %s %s %s %s %s \n",row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12]);
 num_champs = mysql_num_fields(result);
 
-printf("row 12 est %s \n",row[10]);
+printf("row 12 est %s \n",row[0]);
+//sauvegarder l'utilisateur
+SaveUser(atoi(row[0]));
+int a = Getsession();
+
+printf("the id User i %d \n",a);
 res = atoi(row[10]) ;
 
 //on va retourner structure User
@@ -211,10 +215,7 @@ return res ;
 
 //*************************SaveUser*******************************//
 
-void SaveUser(Utilisateur* utili)
-{
 
-}
 
 //*****************GetCurrentUser******************//
 
@@ -393,8 +394,89 @@ mysql_close(con);
 int Getsession(){
     int id;
     FILE *fichier;
-    fichier = fopen("data/session.txt", "r");
-    fscanf(fichier, "%d", id);
-    fclose(fichier);
+    fichier = fopen("session/user.txt", "r");
+    fscanf(fichier, "%d", &id);
     return id;
 }
+
+void SaveUser(int idUser)
+{
+FILE *fichier;
+    fichier = fopen("session/user.txt", "w");
+    fprintf(fichier, "%d", idUser);
+fclose(fichier);
+}
+
+
+//**************************GetCurrentUser******************************//
+
+struct Utilisateur *getCurrentUser(int idUser)
+{
+
+ Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+   MYSQL *con = mysql_init(NULL);
+    Connectdb(con);
+char query[300];
+
+sprintf(query,"select * from Utilisateur where id_utilisateur='%d'",idUser);
+
+mysql_query(con,query);
+
+MYSQL_RES *result = mysql_store_result(con);
+MYSQL_ROW row=mysql_fetch_row(result);
+
+if(row==NULL)
+{
+user = NULL ;
+}else{
+
+printf("we are here niggah %s %s  \n",row[0],row[1]);
+user->id_utilisateur = atoi(row[0]);
+
+strcpy(user->Nom,row[1]);
+printf("we are here niggah %s   \n",user->Nom);
+strcpy(user->Prenom,row[2]);
+strcpy(user->login,row[3]);
+strcpy(user->email,row[4]);
+strcpy(user->mot_passe,row[5]);
+strcpy(user->adresse,row[6]);
+user->nb_emprunts = atoi(row[7]);
+strcpy(user->Num_Cin,row[8]);
+
+strcpy(user->num_tel,row[9]);
+
+}
+
+
+
+    mysql_free_result(result);
+    mysql_close(con);
+
+
+
+ return user ;
+}
+
+
+
+//***************Valider la liste des données entrées par l'utilisateur
+
+
+int check_Num_Cin(char * Numcin)
+{
+
+
+return 0;
+}
+
+
+int check_Telephone(char * Numcin)
+{
+
+
+return 0;
+}
+
+
+
+

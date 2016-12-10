@@ -365,16 +365,18 @@ int res=0;
     Connectdb(con);
     char querry[350];
 
+
+    printf("the book will be added is %d , %s  \n",book->id_livre,book->Titre);
     /*
      sprintf(querry,"insert into Utilisateur Values('%d','%s','%s','%s','%s','%s','%d','%s','%s','%s','%d');",
     NULL,utili->Nom,utili->Prenom,utili->login,utili->email,utili->mot_passe,utili->adresse,0,utili->num_tel,utili->Num_Cin,0);*/
 
-    sprintf(querry,"INSERT INTO `Livre` Values('%d','%s','%s','%s','%d','%d','%d','%s','%s');",
-    11,book->Titre,book->Auteur,book->maison_edition,book->prix,0,book->nb_examplaires_disponibles,book->categorie,book->ISBN_livre);
+    sprintf(querry,"INSERT INTO `Livre` Values('%d','%s','%s','%s','%f','%d','%d','%s','%s');",
+    NULL,book->Titre,book->Auteur,book->maison_edition,book->prix,0,book->nb_examplaires_disponibles,book->categorie,book->ISBN_livre);
 
     printf("we are here hahahah \n");
-   /*res = mysql_query(con, querry);
-printf("the result %d \n", res);*/
+   res = mysql_query(con, querry);
+printf("the result %d \n", res);
 
 
 
@@ -393,31 +395,45 @@ return res ;
 
 //*****************************une méthode pour voir la liste des Utilisateurs**********************//
 
-void  Liste_Utilisateurs(GtkListStore  *store,GtkTreeIter iter){
+void  Liste_Utilisateurs(struct Utilisateur liste_users[]){
+
+MYSQL *con = mysql_init(NULL);
+MYSQL_ROW row;
+Connectdb(con);
+int i =0;
 
 
-    MYSQL *con = mysql_init(NULL);
-    Connectdb(con);
-    char query[100];
-    if (mysql_query(con, "select * from Utilisateur")) {
-      finish_with_error(con);
-    }else{
-        MYSQL_RES *result = mysql_store_result(con);
-        if (result == NULL)
+    char query[300];
+
+ sprintf(query,"select * FROM Utilisateur");
+
+
+mysql_query(con,query);
+MYSQL_RES *result = mysql_store_result(con);
+
+
+ while ((row = mysql_fetch_row(result)))
         {
-          finish_with_error(con);
+                 printf("row est %s ,%s , %s \n",row[0],row[1],row[2],row[3]);
+                 //liste_emprunts[i]= row;
+
+
+liste_users[i].id_utilisateur= (int)row[0];
+strcpy(liste_users[i].Nom,row[1]);
+strcpy(liste_users[i].Prenom,row[2]);
+strcpy(liste_users[i].Num_Cin,row[3]);
+strcpy(liste_users[i].adresse,row[4]);
+strcpy(liste_users[i].num_tel,row[5]);
+strcpy(liste_users[i].email,row[7]);
+i++ ;
+
         }
-        int num_fields = mysql_num_fields(result);
-        MYSQL_ROW row;
-        char user_info[100];
-        while ((row = mysql_fetch_row(result)))
-        {
-            /*gtk_list_store_append (store, &iter);
-            gtk_list_store_set(store, &iter,COL_ID, row[0],COL_NOM, row[4],COL_PRENOM, row[5],COL_ROLE, row[13],-1);*/
-        }
-        mysql_free_result(result);
-    }
-    mysql_close(con);
+
+
+      // printf("test svp e5dheem %s   \n",liste_emprunts[0].date_emprunt);
+
+mysql_close(con);
+
 }
 
 
@@ -478,7 +494,41 @@ mysql_close(con);
 
 
 
+//***************fonction pour récupere le livre via id
 
+struct Livre *GetLivre(int idLivre)
+{
+
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+
+ MYSQL *con = mysql_init(NULL);
+
+Connectdb(con);
+int i =0;
+
+
+    char query[300];
+
+ sprintf(query,"select * FROM Livre where id_livre = '%d'",idLivre);
+mysql_query(con,query);
+MYSQL_RES *result = mysql_store_result(con);
+MYSQL_ROW row=mysql_fetch_row(result);
+//remplir les champs du livre
+
+printf("les champs sont %d  %s %s %s %s  \n",row[0],row[1],row[2],row[3],row[4]);
+
+book->id_livre=atoi(row[0]);
+/*strcpy(book->Titre=row[1]);
+strcpy(book->Auteur=row[2]);
+strcpy(book->maison_edition=row[3]);*/
+book->prix = atof(row[4]);
+book->nb_emprunts = atoi(row[5]);
+book->nb_examplaires_disponibles= atoi(row[6]);
+/*strcpy(book->categorie=row[7]);
+strcpy(book->ISBN_livre = row[8]);*/
+
+ return book ;
+}
 
 
 

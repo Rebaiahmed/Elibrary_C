@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <mysql/mysql.h>
+#include "user_structus.h"
 
+
+
+typedef struct Livre Livre;
 //fonction pour ouvirir interface modifier profile ********************//
 
 void open_fenetre_modifier_profile(GtkButton *button, gpointer user_data)
@@ -23,6 +27,7 @@ void open_fenetre_emprunts(GtkButton *button, gpointer user_data)
     GtkWidget *win = NULL;
     printf("ouvrir interface liste des emprunts \n");
     //modifier_profile_utilisateur(user_data);
+    Interface_utilisateur_liste_emprunts(user_data);
 
 }
 
@@ -33,6 +38,7 @@ void open_fenetre_emprunts(GtkButton *button, gpointer user_data)
 void open_fenetre_creer_emprunt(GtkButton *button, gpointer user_data)
 {
 
+printf("on va ouvir interface crrer emprunt \n");
 
 }
 
@@ -132,12 +138,24 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
 /* ********************************************** */
 /* *********************** table ************************ */
+
+
+//récuper la liste des livres***************//
+int x2 =  Nombre_Livres_Totale();
+struct Livre liste_books[x2];
+printf("le nombre de livres totale est %d \n",x2);
+
+ liste_Livres(liste_books);
+
+
+
+
 table = gtk_table_new(4, 4, TRUE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
   int i,j;
   int pos=0;
-for (i=0; i < 4; i++) {
+for (i=0; i < x2 ; i++) {
     label=gtk_label_new("122");
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0,1, i, i+1);
     for (j=1; j < 3; j++) {
@@ -160,7 +178,8 @@ g_signal_connect (saveTb, "clicked",open_fenetre_modifier_profile,NULL);
 g_signal_connect (Modifytab, "clicked",deconnecter_utilisateur,NULL);
 
 
-
+int idUser = Getsession();
+printf("teh currentUser is %d \n",idUser);
 
 
 

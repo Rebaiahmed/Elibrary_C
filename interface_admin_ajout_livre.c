@@ -33,11 +33,9 @@ void livre_Ajouter(GtkButton *button, gpointer user_data)
   gchar *categorie;
   gchar *ISBN;
 
-
+GtkWidget *win = NULL;
 
 titre = gtk_entry_get_text(GTK_ENTRY (entry_titre));
-
-
     auteur = gtk_entry_get_text(GTK_ENTRY (entry_auteur));
       maison = gtk_entry_get_text(GTK_ENTRY (entry_maison_edition));
     categorie = gtk_entry_get_text(GTK_ENTRY (entry_categorie));
@@ -45,8 +43,20 @@ titre = gtk_entry_get_text(GTK_ENTRY (entry_titre));
     nb_exemplaires= gtk_entry_get_text(GTK_ENTRY (entry_nb_exemplaires));
  prix= gtk_entry_get_text(GTK_ENTRY (entry_prix));
 
+//***************************Valider les champs*****************
 
-  printf("we are here add Book %s %s %s %s %s %s  \n",auteur,maison,categorie,ISBN,nb_exemplaires,prix);
+if(strlen(titre)==0 || strlen(auteur)==0 || strlen(maison)==0 || strlen(categorie)==0 || strlen(ISBN)==0 || strlen(nb_exemplaires)==0
+|| strlen(prix)==0)
+{
+
+printf("erreur dans l'ajout valider les donnes \n");
+
+}
+
+else
+{
+
+
 
     Livre *book  = (Livre *)malloc(sizeof(Livre));
 
@@ -59,7 +69,7 @@ strcpy( book->ISBN_livre,ISBN);
  float fprix = atof(prix);
  book->prix=fprix;
 
-
+printf("we are here add Book %s  \n",book->Titre);
  int res = Ajouter_livre(book);
 
  printf("the res is %d \n",res);
@@ -69,10 +79,18 @@ strcpy( book->ISBN_livre,ISBN);
 
     //afficher message succes d'ajout
     printf("succées d'ajout \n");
+    dialog_succes_ajout(win);
  }else{
 
  printf("erreur dans l'ajout \n");
+ dialog_erreur(win);
  }
+
+}
+
+
+
+
  //affciher un message de success
  //retour au fenetre principale
 //gtk_widget_hide(p);

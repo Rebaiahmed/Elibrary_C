@@ -18,18 +18,34 @@ void login_user(GtkButton *button, gpointer user_data)
     gchar *pass;
    log = gtk_entry_get_text(GTK_ENTRY (entylogin));
     pass = gtk_entry_get_text(GTK_ENTRY (entrymdp));
+GtkWidget *win = NULL;
 
-    printf("the log is %s , %s \n", log, pass);
+    //int s =strcmp(log,"") ;
+  int s = (log== '\0');
+      printf("result fo validit is %d \n",strlen(log));
+
+
+     if(strlen(log)==0  || strlen(pass)==0)
+     {
+
+         printf("donnes erronées \n");
+         dialog_erreur_login_vides(win);
+
+     }else
+     {
+
+
     int x = login(log,pass) ;
     //x = 1 ;
 
-    printf("result of login is %d \n",x);
-     GtkWidget *win = NULL;
+
+
     if(x==0)
     {
     //affciher message d'erreur
     //printf("error message \n");
     gtk_widget_hide(user_data);
+
    interface_utilisateur_globale(win);
    gtk_main ();
     }else if( x==1)
@@ -43,11 +59,17 @@ void login_user(GtkButton *button, gpointer user_data)
     {
 
       printf("message d'erreur avec un dialog \n");
+      GtkWidget *win = NULL;
+      dialog_erreur_login(win);
     }
 
 
 
-//gtk_widget_hide(p);
+//gtk_widget_hide(p);*/
+     }
+
+
+
 }
 
 
