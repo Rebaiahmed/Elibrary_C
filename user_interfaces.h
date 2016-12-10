@@ -35,9 +35,9 @@ void Ajout_livre(GtkWidget *window);
 void statistiques(GtkWidget *window);
 void interface_admin_globale (GtkWidget *window);
 void interface_admin_gerer_emprunts (GtkWidget *window);
-void interface_admin_gerer_livres( GtkWidget *window);
- void details_livre (GtkWidget *win);
- void admin_modifier_livre(GtkWidget *window);
+//void interface_admin_gerer_livres( GtkWidget *window);
+ void details_livre (GtkWidget *win,int idLivre);
+ void admin_modifier_livre(GtkWidget *window,int idLivre);
  void interface_admin_gerer_Utilisateurs( GtkWidget *window);
 
 #endif // USER_INTRFACES_H_INCLUDED

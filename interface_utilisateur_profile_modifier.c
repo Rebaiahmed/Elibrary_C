@@ -143,27 +143,29 @@ gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
     //*******************Récuper l'utilisateur courant***********************//
 
-    int idUser = Getsession();
+
+
+
+
+//************************Récupere l'utilisateur************************//
+
+int idUser = Getsession();
 printf("teh currentUser is %d \n",idUser);
- Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
 user = getCurrentUser(idUser);
 printf("ou data from user are %d , %s  \n",user->id_utilisateur,user->login);
-
-
-
-
 
 
 
        /* gestion des zones des textes */
        entry_CIN=gtk_entry_new();
 
-       gtk_entry_append_text (entry_CIN,"04848993");
-
+       /*gtk_entry_append_text (entry_CIN,"04848993");
        gtk_fixed_put(GTK_FIXED(fixed),entry_CIN,280,170);
        gtk_widget_set_size_request(entry_CIN, 170, 25);
+       gtk_entry_set_text(entry_CIN,user->Num_Cin);*/
 
-     label_nom=gtk_label_new("NOM");
+       label_nom=gtk_label_new("NOM");
        gtk_fixed_put(GTK_FIXED(fixed),label_nom,170,200);
        label_prenom=gtk_label_new("PRENOM");
        gtk_fixed_put(GTK_FIXED(fixed),label_prenom,170,230);
@@ -181,26 +183,44 @@ printf("ou data from user are %d , %s  \n",user->id_utilisateur,user->login);
        entry_CIN=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_CIN,280,170);
        gtk_widget_set_size_request(entry_CIN, 170, 25);
+        gtk_entry_set_text(entry_CIN,user->Num_Cin);
 
 
-entry_nom=gtk_entry_new();
+
+        entry_nom=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_nom,280,200);
        gtk_widget_set_size_request(entry_nom, 170, 25);
+       gtk_entry_set_text(entry_nom,user->Nom);
+
+
        entry_prenom=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_prenom,280,230);
        gtk_widget_set_size_request(entry_prenom, 170, 25);
+         gtk_entry_set_text(entry_prenom,user->Prenom);
+
+
        entry_email=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_email,280,260);
        gtk_widget_set_size_request(entry_email, 170, 25);
+    gtk_entry_set_text(entry_email,user->email);
+
+
        entry_motdepasse=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_motdepasse,280,290);
        gtk_widget_set_size_request(entry_motdepasse, 170, 25);
+  gtk_entry_set_text(entry_motdepasse,user->mot_passe);
+
+
        entry_adresse=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_adresse,280,320);
        gtk_widget_set_size_request(entry_adresse, 170, 25);
+           gtk_entry_set_text(entry_adresse,user->adresse);
+
+
        entry_num_tel=gtk_entry_new();
        gtk_fixed_put(GTK_FIXED(fixed),entry_num_tel,280,350);
        gtk_widget_set_size_request(entry_num_tel, 170, 25);
+        gtk_entry_set_text(entry_num_tel,user->num_tel);
        /* ************************************** */
 
        /* gestion des buttons */

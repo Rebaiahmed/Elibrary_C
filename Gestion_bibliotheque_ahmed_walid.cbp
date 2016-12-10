@@ -56,6 +56,9 @@
 		<Unit filename="inscrire.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="interface_User_Recherche_LIvre.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="interface_admin_ajout_livre.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -66,6 +69,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_admin_liste_livres.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_liste_utilisateurs.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_admin_modifier_livre.c">

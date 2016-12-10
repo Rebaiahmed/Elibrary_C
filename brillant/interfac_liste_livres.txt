@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include "user_interfaces.h"
-
+#include <mysql/mysql.h>
 #include "user_structus.h"
 
 //préparer les callbacks********************//
@@ -11,57 +10,21 @@ typedef struct Emprunt Emprunt;
 typedef struct Livre Livre;
 
 
-//défenir les callbacks*************
 
-
-void open_fenetre_statistique(GtkButton *button, gpointer user_data)
-{
-   gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des emprunts \n");
-    statistiques(user_data);
-
-}
-
-
-void open_fenetre_Ajouter_livre(GtkButton *button, gpointer user_data)
-{
-   gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des emprunts \n");
-    Ajout_livre(user_data);
-
-}
-
-
-
-void open_fenetre_gerer_users(GtkButton *button, gpointer user_data)
-{
-gtk_widget_hide(user_data);
-    GtkWidget *win = NULL;
-    printf("ouvrir interface liste des utilisateurs \n");
-    interface_admin_gerer_Utilisateurs(user_data);
-
-}
-
-
-
-void Livre_Details(GtkButton *button, gpointer user_data)
+/*void Details_Livre(GtkButton *button, gpointer user_data)
 {
 int idLivre = atoi(user_data);
- //Livre *book  = (Livre *)malloc(sizeof(Livre));
-  GtkWidget *win = NULL;
-//book = GetLivre(idLivre);
-details_livre(win,idLivre);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
 printf("ici afficher details livre  %d \n",idLivre);
 }
 
-//*******************************************//
-void Editer_Livre(GtkButton *button, gpointer user_data)
+//*******************************************/
+/*void Editer_Livre(GtkButton *button, gpointer user_data)
 {
-GtkWidget *window =NULL ;
 int idLivre = atoi(user_data);
-admin_modifier_livre(window,idLivre);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
 printf("ici editer livre \n");
 }
 
@@ -72,28 +35,28 @@ int idLivre = atoi(user_data);
  Livre *book  = (Livre *)malloc(sizeof(Livre));
 book = GetLivre(idLivre);
 printf("ici supprimer livre \n");
-}
+}*/
 
 
-void interface_admin_globale (GtkWidget *window)
+
+
+void interface_admin_gerer_livres( GtkWidget *window)
 {
 
 
 
-
-  //GtkWidget *window,*windows2;
   GtkWidget *vbox,*hbox;
 
   GtkWidget *toolbar,*button,*label1,*label2;
   GtkWidget *newTb;
   GtkToolItem *openTb;
-  GtkToolItem *saveTb,*liste_users,*statistisue;
+  GtkToolItem *saveTb,*Modifytab,*statistisue;
   GtkToolItem *sep1,*sep2,*sep3,*sep4,*sep5;
   GtkToolItem *exitTb;
   GtkWidget *table;
 GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
-  //gtk_init(&argc, &argv);
+
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -124,17 +87,12 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
   gtk_tool_button_set_label(saveTb,"Ajouter livre");
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), saveTb, -1);
 
-  //asscoier conecter pour ajouter livre
-   g_signal_connect(G_OBJECT(saveTb), "clicked",
-         open_fenetre_Ajouter_livre, NULL);
-
-//*************************************************//
   sep3 = gtk_separator_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep3, -1);
 
-  liste_users = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
-  gtk_tool_button_set_label(liste_users,"Liste utilisateur");
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar),liste_users, -1);
+  Modifytab = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
+  gtk_tool_button_set_label(Modifytab,"Liste utilisateur");
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), Modifytab, -1);
 
   sep4 = gtk_separator_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep4, -1);
@@ -176,6 +134,10 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 /* ********************************************** */
 /* *********************** table ************************ */
 
+  //************Récuperer la liste des Livres **************//
+  //****************Récupere le nombre de livres********************//
+
+
 
 int x = Nombre_Livres_Totale();
 
@@ -183,10 +145,7 @@ int x = Nombre_Livres_Totale();
 struct Livre liste_books[x];
 liste_Livres(liste_books);
 
-
-
-
-
+//printf("test svp e5dheem %s  \n",liste_books[0].Titre);
 
 table = gtk_table_new(x, 5, TRUE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
@@ -215,7 +174,7 @@ for (i=0; i < x; i++) {
       if(j==2)
       {
       button = gtk_tool_button_new_from_stock(GTK_STOCK_DIALOG_INFO);
-      g_signal_connect (button, "clicked",G_CALLBACK (Livre_Details),liste_books[i].id_livre);
+      g_signal_connect (button, "clicked",G_CALLBACK (Details_Livre),liste_books[i].id_livre);
       }
        //g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (helloWorld), (gpointer) window);
 
@@ -232,29 +191,17 @@ for (i=0; i < x; i++) {
 
     }
   }
-
-
-//**************************************************************//
-//*************Associer les callbacks********************//
-g_signal_connect (statistisue, "clicked",open_fenetre_statistique,NULL);
-//**************************************************************//
-//g_signal_connect (saveTb, "clicked",open_fenetre_modifier_profile,NULL);
-
-g_signal_connect (liste_users, "clicked",open_fenetre_gerer_users,NULL);
-//*************************************************************//
-      if(j==2) button = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
-//g_signal_connect (Modifytab, "clicked",deconnecter_utilisateur,NULL);
-
-
-
-
-
-
-
 gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 5);
 /* *************************************************** */
+
+//***************Lec callback
   gtk_widget_show_all(window);
 
 
 
+
+
+
+
 }
+

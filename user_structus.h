@@ -50,7 +50,7 @@ struct Livre
    float prix ;
     int nb_emprunts ;
     int nb_examplaires_disponibles ;
-    int Livre_id_livre ;
+
 
 
 

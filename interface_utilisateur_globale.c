@@ -2,8 +2,10 @@
 #include <gtk/gtk.h>
 #include <mysql/mysql.h>
 #include "user_structus.h"
+#include<string.h>
 
 
+GtkWidget *entry_livre ;
 
 typedef struct Livre Livre;
 //fonction pour ouvirir interface modifier profile ********************//
@@ -52,13 +54,54 @@ gtk_widget_hide(p);
  gtk_main();
 
 }
+char *str;
+
+void toggled_func(GtkWidget* widget,gpointer data)
+{
+
+printf("teh data is %s \n", data);
+str = data ;
+printf("str %s \n", str);
+
+
+}
 
 
 
 
+void onclick_rechercher(GtkWidget* widget,gpointer data)
+{
+
+  gchar *text;
+  printf("the data i %s \n",data);
+   text= gtk_entry_get_text(GTK_ENTRY (data));
+printf(" rechercher %s  , %s %d \n",str,text,(str=="1"));
+
+if(str=="1")
+{
+printf("recherche par Titre \n");
+Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = Rechercher_livre_Titre(text);
+printf("the book is %s ,%s \n", book->Titre,book->Auteur);
+
+}else if(str=="2")
+{
+printf("recherche par Auteur \n");
+Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = Rechercher_livre_Auteur(text);
+printf("the book is %s ,%s \n", book->Titre,book->Auteur);
+
+}else{
+
+printf("recherche par ISBN \n");
+
+Livre *book  = (Livre *)malloc(sizeof(Livre));
+//book = Rechercher_livre_ISBN(text);
+printf("the book is %s ,%s \n", book->Titre,book->Auteur);
+}
 
 
-
+}
 
 
 
@@ -67,11 +110,11 @@ gtk_widget_hide(p);
 
 void interface_utilisateur_globale(GtkWidget *window)
 {
-
+ str="1";
 
   GtkWidget *vbox,*hbox;
-
-  GtkWidget *toolbar,*button,*label;
+GtkWidget *list_group,*radio_button_titre,*radio_button_auteur,*radio_button_isbn,*combo,*label_sep;
+  GtkWidget *toolbar,*button,*label1,*label2;
   GtkToolItem *newTb;
   GtkToolItem *openTb;
   GtkToolItem *saveTb,*Modifytab;
@@ -123,18 +166,50 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
 /* ******************************************************************* */
 /*  ******************* recherche **************************** */
+ label_recherche_livre=gtk_label_new("Livre");
+  button_recherche=gtk_tool_button_new_from_stock(GTK_STOCK_FIND);
 
-  label_recherche_livre=gtk_label_new("Livre");
-  button_recherche=gtk_tool_button_new_from_stock(GTK_STOCK_FIND);;
+ //Associer callback***************************************
+
+
+
+
 
   entry_livre=gtk_entry_new();
   hbox = gtk_hbox_new(FALSE, 0);
 
+  g_signal_connect(button_recherche,"clicked",G_CALLBACK(onclick_rechercher),entry_livre);
+
+  radio_button_titre=gtk_radio_button_new_with_label (NULL,"Titre");
+  g_signal_connect(radio_button_titre,"toggled",G_CALLBACK(toggled_func),(gpointer)"1");
+
+  radio_button_auteur=gtk_radio_button_new_with_label (gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio_button_titre)),"Auteur");
+  g_signal_connect(radio_button_auteur,"toggled",G_CALLBACK(toggled_func),(gpointer)"2");
+
+  radio_button_isbn=gtk_radio_button_new_with_label (gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio_button_titre)),"ISBN");
+   g_signal_connect(radio_button_isbn,"toggled",G_CALLBACK(toggled_func),(gpointer)"3");
+
+   gchar *str = "<i><b><big>||</big></b></i> ";
+  label_sep=gtk_label_new(NULL);
+  gtk_label_set_markup(GTK_LABEL(label_sep), str);
+  combo = gtk_combo_box_new_text();
+
+
+  gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Auteur");
+  gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Titre");
+  gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "ISBN");
+
 
   gtk_box_pack_start(GTK_BOX(hbox), label_recherche_livre, FALSE, FALSE, 5);
   gtk_box_pack_start(GTK_BOX(hbox), entry_livre, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), radio_button_titre, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), radio_button_auteur, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), radio_button_isbn, FALSE, FALSE, 5);
   gtk_box_pack_start(GTK_BOX(hbox), button_recherche, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), label_sep, FALSE, FALSE, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), combo, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
+
 
 /* ********************************************** */
 /* *********************** table ************************ */
@@ -150,20 +225,23 @@ printf("le nombre de livres totale est %d \n",x2);
 
 
 
-table = gtk_table_new(4, 4, TRUE);
+table = gtk_table_new(x2, 4, TRUE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
   int i,j;
-  int pos=0;
+
 for (i=0; i < x2 ; i++) {
-    label=gtk_label_new("122");
-    gtk_table_attach_defaults(GTK_TABLE(table), label, 0,1, i, i+1);
-    for (j=1; j < 3; j++) {
-      if(j==1) button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);;
-      if(j==2) button = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
+    label1=gtk_label_new(liste_books[i].Titre);
+    gtk_table_attach_defaults(GTK_TABLE(table), label1, 0,1, i, i+1);
+
+    label1=gtk_label_new(liste_books[i].ISBN_livre);
+    gtk_table_attach_defaults(GTK_TABLE(table), label1, 1,2, i, i+1);
+    for (j=2; j < 4; j++) {
+      if(j==2) button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);;
+      if(j==3) button = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
 
       gtk_table_attach_defaults(GTK_TABLE(table), button, j, j+1, i, i+1);
-      pos++;
+
     }
   }
 gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 5);

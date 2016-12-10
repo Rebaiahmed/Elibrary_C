@@ -231,8 +231,55 @@ struct Utilisateur  *getLoggedUser(char *titre)
 //*****************************Rechercher Livre Titre*********************//
 struct Livre  *Rechercher_livre_Titre(char *titre)
 {
- Livre *book  = (Livre *)malloc(sizeof(Livre));
- return book ;
+
+
+
+  MYSQL *con = mysql_init(NULL);
+    Connectdb(con);
+      Livre *book  = (Livre *)malloc(sizeof(Livre));
+
+    char querry[100];
+    sprintf(querry,"SELECT * FROM Livre WHERE Titre='%s'",titre);
+
+
+    mysql_query(con,querry);
+
+    MYSQL_RES *result = mysql_store_result(con);
+
+
+    if (result == NULL)
+    {
+
+        book = NULL ;
+    }else
+    {
+
+MYSQL_ROW row=mysql_fetch_row(result);
+
+
+//printf("value of res %d \n ",res);
+
+
+
+
+ book->id_livre= atoi(row[0]);
+strcpy( book->Titre,row[1]);
+strcpy( book->Auteur,row[2]);
+strcpy( book->maison_edition,row[3]);
+book->prix = atof(row[4]);
+book->nb_emprunts=atoi(row[5]);
+book->nb_examplaires_disponibles=atoi(row[6]);
+strcpy( book->categorie,row[7]);
+strcpy( book->ISBN_livre,row[8]);
+
+    }
+
+
+
+    mysql_free_result(result);
+    mysql_close(con);
+
+return book;
 
 }
 
@@ -241,49 +288,106 @@ struct Livre  *Rechercher_livre_Titre(char *titre)
 struct Livre *Rechercher_livre_Auteur(char *auteur)
 {
 
- Livre *book  = (Livre *)malloc(sizeof(Livre));
- return book ;
-}
 
 
 
-/*struct  Livre *Rechercher_livre_ISBN(char * ISBN)
-{
   MYSQL *con = mysql_init(NULL);
     Connectdb(con);
       Livre *book  = (Livre *)malloc(sizeof(Livre));
 
     char querry[100];
-    sprintf(querry,"%s","SELECT * FROM Livre WHERE ISBN_livre='",ISBN,"';");
+    sprintf(querry,"SELECT * FROM Livre WHERE Auteur='%s'",auteur);
 
 
     mysql_query(con,querry);
+
     MYSQL_RES *result = mysql_store_result(con);
 
 
     if (result == NULL)
     {
-        finish_with_error(con);
+
         book = NULL ;
     }else
     {
+
 MYSQL_ROW row=mysql_fetch_row(result);
 
 
-printf("value of res %d \n ",res);
-printf("value of row %s %s %s  \n ",row[0],row[1],row[8]);
+//printf("value of res %d \n ",res);
 
 
 
 
-strcpy( book->Titre,row[0]);
-strcpy( book->Auteur,row[1]);
-strcpy( book->maison_edition,row[2]);
-book->prix = row[3];
-book->nb_emprunts=row[4];
-book->nb_examplaires_disponibles=row[5];
-strcpy( book->categorie,row[3]);
-strcpy( book->ISBN_livre,row[4]);
+ book->id_livre= atoi(row[0]);
+strcpy( book->Titre,row[1]);
+strcpy( book->Auteur,row[2]);
+strcpy( book->maison_edition,row[3]);
+book->prix = atof(row[4]);
+book->nb_emprunts=atoi(row[5]);
+book->nb_examplaires_disponibles=atoi(row[6]);
+strcpy( book->categorie,row[7]);
+strcpy( book->ISBN_livre,row[8]);
+
+    }
+
+
+
+    mysql_free_result(result);
+    mysql_close(con);
+
+return book;
+}
+
+
+//***************************************************************//
+
+
+struct  Livre *Rechercher_livre_ISBN(char * ISBN)
+{
+
+
+
+
+  MYSQL *con = mysql_init(NULL);
+    Connectdb(con);
+      Livre *book  = (Livre *)malloc(sizeof(Livre));
+
+    char querry[100];
+    sprintf(querry,"SELECT * FROM Livre WHERE ISBN_livre='%s'",ISBN);
+printf("search book \n");
+
+    mysql_query(con,querry);
+
+    MYSQL_RES *result = mysql_store_result(con);
+
+
+    if (result == NULL)
+    {
+
+        book = NULL ;
+    }else
+    {
+
+MYSQL_ROW row=mysql_fetch_row(result);
+
+
+//printf("value of res %d \n ",res);
+
+
+
+
+ book->id_livre= atoi(row[0]);
+
+
+strcpy( book->Titre,row[1]);
+strcpy( book->Auteur,row[2]);
+strcpy( book->maison_edition,row[3]);
+book->prix = atof(row[4]);
+book->nb_emprunts=atoi(row[5]);
+book->nb_examplaires_disponibles=atoi(row[6]);
+strcpy( book->categorie,row[7]);
+strcpy( book->ISBN_livre,row[8]);
 
 
     }
@@ -294,7 +398,7 @@ strcpy( book->ISBN_livre,row[4]);
     mysql_close(con);
 
 return book;
-}*/
+}
 
 
 
@@ -430,19 +534,18 @@ if(row==NULL)
 user = NULL ;
 }else{
 
-printf("we are here niggah %s %s  \n",row[0],row[1]);
-user->id_utilisateur = atoi(row[0]);
 
+user->id_utilisateur = atoi(row[0]);
 strcpy(user->Nom,row[1]);
-printf("we are here niggah %s   \n",user->Nom);
 strcpy(user->Prenom,row[2]);
 strcpy(user->login,row[3]);
 strcpy(user->email,row[4]);
+
+printf("our user is %s \n",user->email);
 strcpy(user->mot_passe,row[5]);
 strcpy(user->adresse,row[6]);
 user->nb_emprunts = atoi(row[7]);
 strcpy(user->Num_Cin,row[8]);
-
 strcpy(user->num_tel,row[9]);
 
 }

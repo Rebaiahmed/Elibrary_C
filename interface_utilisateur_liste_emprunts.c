@@ -18,7 +18,7 @@ GtkWidget *vbox;
   GtkToolItem *openTb;
   GtkToolItem *saveTb,*exit;
 
-  GtkWidget *table,*label1,*label2,*label3,*label4,*label5,*label6;
+  GtkWidget *table,*label1,*label2,*label3,*label4,*label5,*label6,*label7,*label8,*label_date_emprunt;
   GtkToolItem *sep1,*sep2,*sep3;
 
 
@@ -71,7 +71,7 @@ int nb_emprunts = Nb_emprunts_En_Cours(idUser);
 struct Emprunt liste_emprunts[nb_emprunts];
 liste_Emprunts_Utilisateurs_En_Cours(idUser,liste_emprunts);
 
-
+printf("we are here in list emprunts  %d \n",nb_emprunts);
 
 
 
@@ -81,7 +81,7 @@ liste_Emprunts_Utilisateurs_En_Cours(idUser,liste_emprunts);
 /* ******************************************************************* */
 
 /* *********************** table ************************ */
-table = gtk_table_new(4, 4, TRUE);
+table = gtk_table_new(nb_emprunts, 4, TRUE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 2);
   int i,j;
@@ -93,15 +93,23 @@ table = gtk_table_new(4, 4, TRUE);
     gtk_table_attach_defaults(GTK_TABLE(table), label3, 2,3, 0, 1);
     label4=gtk_label_new("etat");
     gtk_table_attach_defaults(GTK_TABLE(table), label4, 3,4, 0, 1);
-for (i=1; i < nb_emprunts; i++) {
-    label5=gtk_label_new("122");
+
+for (i=1; i <= nb_emprunts; i++) {
+
+    gchar* datemperunt = g_locale_to_utf8(liste_emprunts[i].date_emprunt,-1,NULL,NULL,NULL);
+    label5=gtk_label_new(datemperunt);
+
     gtk_table_attach_defaults(GTK_TABLE(table), label5, 0,1, i, i+1);
-    for (j=1; j < 4; j++) {
 
-label6=gtk_label_new("122");
-      gtk_table_attach_defaults(GTK_TABLE(table), label6, j, j+1, i, i+1);
+    label6=gtk_label_new(liste_emprunts[i].date_emprunt);
+    gtk_table_attach_defaults(GTK_TABLE(table), label6, 1,2, i, i+1);
 
-    }
+    label7=gtk_label_new(liste_emprunts[i].date_retour);
+    gtk_table_attach_defaults(GTK_TABLE(table), label7, 2,3, i, i+1);
+
+    label8=gtk_label_new(liste_emprunts[i].etat);
+    gtk_table_attach_defaults(GTK_TABLE(table), label8, 3,4, i, i+1);
+
   }
 gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 5);
 /* *************************************************** */

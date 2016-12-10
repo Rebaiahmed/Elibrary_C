@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1481336492 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/main.c
+1481377442 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/main.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	<mysql/mysql.h>
@@ -2467,7 +2467,7 @@
 	<regex.h>
 	"user_structus.h"
 
-1481336403 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/user_interfaces.h
+1481364717 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/user_interfaces.h
 
 1481334315 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_ajout_livre.c
 	<stdlib.h>
@@ -2509,17 +2509,19 @@
 	<gtk/gtk.h>
 	"user_interfaces.h"
 
-1481336728 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_globale.c
+1481364808 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_globale.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	"user_interfaces.h"
+	"user_structus.h"
 
-1481312311 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_modifier_livre.c
+1481367158 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_modifier_livre.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	<mysql/mysql.h>
 	"user_structs.h"
 	"user_interfaces.h"
+	"user_structus.h"
 
 1480761480 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_creer_emprunt.c
 	<stdlib.h>
@@ -2532,22 +2534,23 @@
 	"user_interfaces.h"
 	"user_functions.h"
 
-1481331744 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_globale.c
+1481380702 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_globale.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	<mysql/mysql.h>
 	"user_structus.h"
+	<string.h>
 
 1480761904 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/user_structs.h
 
-1481326938 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/user_structus.h
+1481375880 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/user_structus.h
 
 1481146154 /home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/functions/connect_database.h
 	<stdio.h>
 	<string.h>
 	<mysql/mysql.h>
 
-1481329036 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/functions/Utilisateur.c
+1481376676 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/functions/Utilisateur.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -2557,7 +2560,7 @@
 	"connect_database.h"
 	"../user_structus.h"
 
-1481335841 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/functions/Admin.c
+1481367445 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/functions/Admin.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -2566,18 +2569,14 @@
 	"connect_database.h"
 	"../user_structus.h"
 
-1481331069 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_profile_modifier.c
+1481368519 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_profile_modifier.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	"user_interfaces.h"
 	"user_functions.h"
 	"user_structus.h"
 
-1481311411 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_liste_livres.c
-	<stdlib.h>
-	<gtk/gtk.h>
-	<mysql/mysql.h>
-	"user_structus.h"
+1481363221 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_admin_liste_livres.c
 
 1481311771 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/dialog_details_livre.c
 	<stdlib.h>
@@ -2585,7 +2584,7 @@
 	<mysql/mysql.h>
 	"user_structus.h"
 
-1481331384 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_liste_emprunts.c
+1481374384 source:/home/ahmed/Bureau/Gestion_bibliotheque_ahmed_walid/interface_utilisateur_liste_emprunts.c
 	<stdlib.h>
 	<gtk/gtk.h>
 	"user_interfaces.h"

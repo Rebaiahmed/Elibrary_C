@@ -515,17 +515,19 @@ MYSQL_RES *result = mysql_store_result(con);
 MYSQL_ROW row=mysql_fetch_row(result);
 //remplir les champs du livre
 
-printf("les champs sont %d  %s %s %s %s  \n",row[0],row[1],row[2],row[3],row[4]);
+printf("les champs sont %s %s \n",row[1],row[2]);
 
 book->id_livre=atoi(row[0]);
-/*strcpy(book->Titre=row[1]);
-strcpy(book->Auteur=row[2]);
-strcpy(book->maison_edition=row[3]);*/
+//strcpy(book->Titre = row[1]);
+//strcpy(book->Auteur=row[2]);
+//strcpy(book->maison_edition=row[3]);
 book->prix = atof(row[4]);
 book->nb_emprunts = atoi(row[5]);
 book->nb_examplaires_disponibles= atoi(row[6]);
-/*strcpy(book->categorie=row[7]);
-strcpy(book->ISBN_livre = row[8]);*/
+//strcpy(book->categorie=row[7]);
+//strcpy(book->ISBN_livre = row[8]);
+   mysql_free_result(result);
+    mysql_close(con);
 
  return book ;
 }

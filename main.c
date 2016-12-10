@@ -40,19 +40,27 @@ printf("le nombre de livres totale est %d \n",x2);
 
 
  liste_Livres(liste_books);*/
- /*Livre *book  = (Livre *)malloc(sizeof(Livre));
-book = GetLivre(1);
-printf("the book is %d \n",book->id_livre);*/
+ //Livre *book  = (Livre *)malloc(sizeof(Livre));
+ //GetLivre(1);
+//printf("the book is %d \n",book->id_livre);
 
-int x2 =  Nombre_utilisateurs_Totale ();
+/*int x2 =  Nombre_utilisateurs_Totale ();
 struct Utilisateur liste_users[x2];
- Liste_Utilisateurs(liste_users);
+ Liste_Utilisateurs(liste_users);*/
 
 
 
-/*Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
-user = getCurrentUser(1);*/
+Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
 
+
+//user = getCurrentUser(1);
+//printf("we are here \n");
+//printf(" teh suer is %s \n ",user->email);
+
+/*Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = Rechercher_livre_Titre("Book1");*/
+
+//printf("we are here %s \n",book->Titre);
 
 
 

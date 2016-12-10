@@ -4,13 +4,27 @@
 #include "user_structs.h"
 #include "user_interfaces.h"
 
+#include "user_structus.h"
+
+//préparer les callbacks********************//
+
+typedef struct Livre Livre;
 
 
 
-
-void admin_modifier_livre(GtkWidget *window)
+void admin_modifier_livre(GtkWidget *window,int idLivre)
 {
 
+
+//***********************Récuperer les livres*************************//
+
+printf("id est %d \n",idLivre);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
+
+printf("donnes boooks est %d  \n", book->id_livre);
+
+//************************************************//
 
 GtkWidget *image;
 
@@ -64,19 +78,32 @@ window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
         entry_titre=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_titre,300,170);
         gtk_widget_set_size_request(entry_titre, 170, 25);
+        //printf("donnes boooks est %d  \n", book->id_livre);
+        //gtk_entry_set_text(entry_titre,book->Titre);
+
+        //***************************************//
         entry_isbn=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_isbn,300,200);
         gtk_widget_set_size_request(entry_isbn, 170, 25);
+
+        //*******************************************//
         entry_auteur=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_auteur,300,230);
         gtk_widget_set_size_request(entry_auteur, 170, 25);
 
+        //****************************************************//
         entry_maison_edition=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_maison_edition,300,260);
         gtk_widget_set_size_request(entry_maison_edition, 170, 25);
+
+
+        //********************************************//
         entry_prix=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_prix,300,290);
         gtk_widget_set_size_request(entry_prix, 170, 25);
+
+
+        //*********************************************//
         entry_nb_exemplaire=gtk_entry_new();
         gtk_fixed_put(GTK_FIXED(fixed),entry_nb_exemplaire,300,320);
         gtk_widget_set_size_request(entry_nb_exemplaire, 170, 25);
