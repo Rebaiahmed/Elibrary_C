@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include "user_structus.h"
 #include<string.h>
 
@@ -9,6 +8,45 @@ GtkWidget *entry_livre ;
 
 typedef struct Livre Livre;
 //fonction pour ouvirir interface modifier profile ********************//
+
+
+
+
+void click_trier(GtkComboBox *combo,gpointer data)
+{
+gchar *string=gtk_combo_box_get_active_text(combo);
+printf("hdhdhdhd %s  \n", string);
+
+int x2 = Nombre_Livres_Totale ();
+struct Livre books[x2];
+ GtkWidget *win = NULL;
+if(string=="Auteur")
+{
+Trier_Livres_Auteur(books);
+  interface_utilisateur_globale(win,books);
+
+}else
+{
+
+printf("we are here titre \n");
+Trier_Livres_Titre(books);
+  interface_utilisateur_globale(win,books);
+
+}
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
 
 void open_fenetre_modifier_profile(GtkButton *button, gpointer user_data)
 {
@@ -41,7 +79,10 @@ void open_fenetre_creer_emprunt(GtkButton *button, gpointer user_data)
 {
 
 printf("on va ouvir interface crrer emprunt \n");
-
+ GtkWidget *win = NULL;
+ int idLivre = atoi(user_data);
+ printf("id livre est %d \n", idLivre);
+interface_utilisateur_emprunter_livre(win,idLivre);
 }
 
 
@@ -104,11 +145,38 @@ printf("the book is %s ,%s \n", book->Titre,book->Auteur);
 }
 
 
+//***************ouvrir interface details livre utisateur*****//
 
 
 
 
-void interface_utilisateur_globale(GtkWidget *window)
+
+void ouvrir_interface_details_livre(GtkWidget* widget,gpointer data)
+
+{
+
+printf("details livre \n");
+
+}
+
+
+
+void ouvrir_interface_emprunter_livre(GtkWidget* widget,gpointer data)
+
+{
+printf("id livre est %s \n", data);
+
+int idLivre = atoi(data);
+GtkWidget *win = NULL;
+printf("ientfdfdfd\n");
+interface_utilisateur_emprunter_livre(win,idLivre);
+}
+
+
+
+
+
+void interface_utilisateur_globale(GtkWidget *window,struct Livre books[])
 {
  str="1";
 
@@ -198,7 +266,7 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
   gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Auteur");
   gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Titre");
   gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "ISBN");
-
+g_signal_connect(G_OBJECT(combo),"changed",G_CALLBACK(click_trier),NULL);
 
   gtk_box_pack_start(GTK_BOX(hbox), label_recherche_livre, FALSE, FALSE, 5);
   gtk_box_pack_start(GTK_BOX(hbox), entry_livre, FALSE, FALSE, 5);
@@ -216,13 +284,10 @@ GtkWidget *label_recherche_livre,*entry_livre,*button_recherche;
 
 
 //récuper la liste des livres***************//
-int x2 =  Nombre_Livres_Totale();
-struct Livre liste_books[x2];
-printf("le nombre de livres totale est %d \n",x2);
-
- liste_Livres(liste_books);
 
 
+
+    int x2 =  Nombre_Livres_Totale();
 
 
 table = gtk_table_new(x2, 4, TRUE);
@@ -231,14 +296,21 @@ table = gtk_table_new(x2, 4, TRUE);
   int i,j;
 
 for (i=0; i < x2 ; i++) {
-    label1=gtk_label_new(liste_books[i].Titre);
+    label1=gtk_label_new(books[i].Titre);
     gtk_table_attach_defaults(GTK_TABLE(table), label1, 0,1, i, i+1);
 
-    label1=gtk_label_new(liste_books[i].ISBN_livre);
+    label1=gtk_label_new(books[i].ISBN_livre);
     gtk_table_attach_defaults(GTK_TABLE(table), label1, 1,2, i, i+1);
     for (j=2; j < 4; j++) {
-      if(j==2) button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);;
-      if(j==3) button = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
+      if(j==2)
+      {
+      button = gtk_tool_button_new_from_stock(GTK_STOCK_OK);
+     g_signal_connect (button, "clicked",ouvrir_interface_emprunter_livre,books[i].id_livre);
+      }
+      if(j==3) {
+      button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);
+     g_signal_connect (button, "clicked",ouvrir_interface_details_livre,books[i].id_livre);
+      }
 
       gtk_table_attach_defaults(GTK_TABLE(table), button, j, j+1, i, i+1);
 

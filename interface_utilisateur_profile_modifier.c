@@ -152,7 +152,7 @@ gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 int idUser = Getsession();
 printf("teh currentUser is %d \n",idUser);
 Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
-user = getCurrentUser(idUser);
+user = getUser(idUser);
 printf("ou data from user are %d , %s  \n",user->id_utilisateur,user->login);
 
 

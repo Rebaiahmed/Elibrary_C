@@ -2,6 +2,12 @@
 #include <gtk/gtk.h>
 #include "user_interfaces.h"
 
+
+
+
+
+
+
 void interface_details_livre(GtkWidget *window)
 {
 

@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include <regex.h>
 #include "user_structus.h"
 

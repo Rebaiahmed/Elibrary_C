@@ -4,6 +4,10 @@
 //connect to dataabse ***********
 
 
+typedef struct Utilisateur Utilisateur;
+typedef struct Emprunt Emprunt;
+typedef struct Livre Livre;
+
 
 
 
@@ -16,7 +20,7 @@ liste_Emprunts_Utilisateurs_En_Cours(int idUser,struct Emprunt liste_emprunts[])
 struct Livre *GetLivre(int idLivre);
 int Getsession();
 
-
+void Creer_Emprunt(Emprunt* emp);
 //struct  Livre *Rechercher_livre_ISBN(char * ISBN)
 
 #endif // USER_FUNCTIONS_H_INCLUDED

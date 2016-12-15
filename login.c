@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include "user_structs.h"
 #include "user_functions.h"
 #include "user_interfaces.h"
@@ -46,7 +45,14 @@ GtkWidget *win = NULL;
     //printf("error message \n");
     gtk_widget_hide(user_data);
 
-   interface_utilisateur_globale(win);
+
+    int x2 =  Nombre_Livres_Totale();
+struct Livre books[x2];
+printf("le nombre de livres totale est %d \n",x2);
+
+ liste_Livres(books);
+
+   interface_utilisateur_globale(win,books);
    gtk_main ();
     }else if( x==1)
     {

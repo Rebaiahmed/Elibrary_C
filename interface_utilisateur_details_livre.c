@@ -6,8 +6,26 @@
 
 
 
-void Details_Livre(GtkWidget *window)
+void Details_Livre(GtkWidget *window,int idLivre)
 {
+
+
+
+
+
+//***********************Récuperer les livres*************************//
+
+printf("id est %d \n",idLivre);
+ Livre *book  = (Livre *)malloc(sizeof(Livre));
+book = GetLivre(idLivre);
+
+printf("donnes boooks est %d  \n", book->id_livre);
+
+
+
+
+
+
 
 GtkWidget *image;
 GtkWidget *text1,*label_nom,*label_prenom,*label_email,*label_motdepasse,*label_adresse,*label_num_tel;

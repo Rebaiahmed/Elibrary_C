@@ -26,9 +26,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="`mysql_config --cflags`" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="`mysql_config --libs`" />
 				</Linker>
 			</Target>
 		</Build>
@@ -43,10 +45,16 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="dialog_details_livre;c" />
+		<Unit filename="dialog_details_user.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="dialogs.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="functions/Admin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions/User_Admin.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="functions/Utilisateur.c">
@@ -59,7 +67,19 @@
 		<Unit filename="interface_User_Recherche_LIvre.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="interface_admin_Modifier_livre.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="interface_admin_ajout_livre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_details_utilisateur.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_emprunts_en_cours.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_admin_emprunts_retards.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_admin_gerer_emprunts.c">
@@ -68,24 +88,25 @@
 		<Unit filename="interface_admin_globale.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="interface_admin_liste_livres.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="interface_admin_liste_utilisateurs.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="interface_admin_modifier_livre.c">
+		<Unit filename="interface_admin_modifier_utilisateur" />
+		<Unit filename="interface_admin_modifier_utilisateur.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_details_livre.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="interface_utilisateur_creer_emprunt.c">
+		<Unit filename="interface_dialog_supprimer_livre.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_utilisateur_details_livre.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="interface_utilisateur_emprunter_livre.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_utilisateur_globale.c">
 			<Option compilerVar="CC" />
@@ -94,6 +115,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="interface_utilisateur_profile_modifier.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_utlisateur_livres_triees.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="login.c">

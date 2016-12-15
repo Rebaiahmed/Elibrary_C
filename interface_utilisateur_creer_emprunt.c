@@ -28,9 +28,9 @@ fixed=gtk_fixed_new();
 //*********************************************//
 
   /*  gestion des labels */
-labellogin=gtk_label_new("Votre Login :");
+labellogin=gtk_label_new("Date emprunt:");
 gtk_fixed_put(GTK_FIXED(fixed),labellogin,170,170);
-labelmdp=gtk_label_new("Mot de passe");
+labelmdp=gtk_label_new("Date retour ");
 gtk_fixed_put(GTK_FIXED(fixed),labelmdp,170,230);
 
 

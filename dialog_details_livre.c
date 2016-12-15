@@ -1,15 +1,32 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include "user_structus.h"
 
 
- void details_livre ( GtkWidget *win)
+
+typedef struct Livre Livre;
+
+
+ void details_livre ( GtkWidget *win,int idLivre)
 {
     GtkWidget* pBoite;
     GtkWidget *label1,*label2,*label3,*label4,*label5,*label6,*label7,*label8;
     GtkWidget *label9,*label10,*label11,*label12,*label13,*label14,*label15,*label16;
     GtkWidget *table;
+
+
+
+
+    //**************************Récupere le livre*******************//
+
+     Livre *book  = (Livre *)malloc(sizeof(Livre));
+
+     printf("the id off livre eest %d \n",idLivre);
+book = GetLivre(idLivre);
+
+
+
+
 
 
    // pBoite = gtk_dialog_new_with_buttons("Details",GTK_WINDOW(win),GTK_DIALOG_MODAL,GTK_BUTTONS_CLOSE,NULL,NULL,NULL,NULL);
@@ -61,45 +78,41 @@
   /*
 
 
+  //book
+
+
+
   // aprit d'ici mettre nos données              ********************************************* */
-  label9 = gtk_label_new(NULL);
-  gchar *str9 = "<b>Titre : </b>";
-  gtk_label_set_markup(GTK_LABEL(label9), str9);
+
+
+  label9 = gtk_label_new(book->Titre);
   gtk_table_attach_defaults(GTK_TABLE(table), label9, 1,2, 0, 1);
 
-  label10 = gtk_label_new(NULL);
-  gchar *str10 = "<b>Auteur : </b>";
-  gtk_label_set_markup(GTK_LABEL(label10), str10);
+  label10 = gtk_label_new(book->Auteur);
   gtk_table_attach_defaults(GTK_TABLE(table), label10, 1,2, 1, 2);
 
-  label11 = gtk_label_new(NULL);
-  gchar *str11 = "<b>ISBN : </b>";
-  gtk_label_set_markup(GTK_LABEL(label11), str11);
+  label11 = gtk_label_new(book->ISBN_livre);
   gtk_table_attach_defaults(GTK_TABLE(table), label11, 1,2, 2, 3);
 
-  label12 = gtk_label_new(NULL);
-  gchar *str12 = "<b>Categorie : </b>";
-  gtk_label_set_markup(GTK_LABEL(label12), str12);
+  label12 = gtk_label_new(book->categorie);
   gtk_table_attach_defaults(GTK_TABLE(table), label12, 1,2, 3, 4);
 
-  label13 = gtk_label_new(NULL);
-  gchar *str13 = "<b>maison d'edition : </b>";
-  gtk_label_set_markup(GTK_LABEL(label13), str13);
+  label13 = gtk_label_new(book->maison_edition);
   gtk_table_attach_defaults(GTK_TABLE(table), label13, 1,2, 4, 5);
-
-  label14 = gtk_label_new(NULL);
-  gchar *str14 = "<b>nombre d'emprunt : </b>";
-  gtk_label_set_markup(GTK_LABEL(label14), str14);
+  char s1[50];
+  sprintf(s1,"%d",book->nb_emprunts);
+  label14 = gtk_label_new(s1);
   gtk_table_attach_defaults(GTK_TABLE(table), label14, 1,2, 5, 6);
 
-  label15 = gtk_label_new(NULL);
-  gchar *str15 = "<b>Nombre exemplaire : </b>";
-  gtk_label_set_markup(GTK_LABEL(label15), str15);
+  char s2[50];
+
+  sprintf(s2,"%d",book->nb_examplaires_disponibles);
+  label15 = gtk_label_new(s2);
   gtk_table_attach_defaults(GTK_TABLE(table), label15, 1,2, 6, 7);
 
-  label16 = gtk_label_new(NULL);
-  gchar *str16 = "<b>Prix : </b>";
-  gtk_label_set_markup(GTK_LABEL(label16), str16);
+  char s3[50];
+  sprintf(s3,"%f",book->prix);
+  label16 = gtk_label_new(s3);
   gtk_table_attach_defaults(GTK_TABLE(table), label16, 1,2, 7, 8);
 
 

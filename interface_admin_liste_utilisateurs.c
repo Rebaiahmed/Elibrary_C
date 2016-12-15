@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include "user_structus.h"
 
 //préparer les callbacks********************//
@@ -13,32 +12,72 @@ typedef struct Livre Livre;
 
 void Details_Utilisateurs(GtkButton *button, gpointer user_data)
 {
-int idLivre = atoi(user_data);
- Livre *book  = (Livre *)malloc(sizeof(Livre));
-book = GetLivre(idLivre);
-printf("ici afficher details livre  %d \n",idLivre);
+
+int idUser = atoi(user_data);
+Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+
+printf("ici afficher details utilisateur  %d \n",idUser);
+GtkWidget *win = NULL;
+admin_details_utilisateur(win,idUser);
 }
 
 //*******************************************//
 void Editer_Utilisateur(GtkButton *button, gpointer user_data)
 {
-int idLivre = atoi(user_data);
- Livre *book  = (Livre *)malloc(sizeof(Livre));
-book = GetLivre(idLivre);
-printf("ici editer livre \n");
+int idUser = atoi(user_data);
+Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+printf("ici afficher details utilisateur  %d \n",idUser);
+printf("ici editer User \n");
+GtkWidget *win = NULL;
+admin_modifier_utilisateur(win,idUser);
 }
+
+//**********************************************//
+
+void on_response (GtkDialog *dialog,gint response_id, gpointer   user_data)
+{
+  /*For demonstration purposes, this will show the int value
+  of the response type*/
+  g_print ("response is %d\n", response_id);
+
+  /*This will cause the dialog to be destroyed*/
+  gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
+
+//*****************************************************************//
+
+
 
 void Supprimer_User(GtkButton *button, gpointer user_data)
 {
 
-int idLivre = atoi(user_data);
- Livre *book  = (Livre *)malloc(sizeof(Livre));
-book = GetLivre(idLivre);
+int idUser = atoi(user_data);
+
+printf("ici afficher details utilisateur  %d \n",idUser);
 printf("ici supprimer livre \n");
+
+int user_id = supprimer_utilisateur(idUser);
+GtkWidget *win = NULL;
+if(user_id==-1)
+{
+dialog_erreur_suppression_user(win);
+
+}else
+{
+
+dialog_succes_suppression(win);
+
+}
+gtk_widget_hide(win);
+interface_admin_globale(win);
+
+
 }
 
 
-
+//***************************************//
 
 void interface_admin_gerer_Utilisateurs( GtkWidget *window)
 {
@@ -172,9 +211,9 @@ for (i=0; i < x2; i++) {
       if(j==2)
       {
       button = gtk_tool_button_new_from_stock(GTK_STOCK_DIALOG_INFO);
-      g_signal_connect (button, "clicked",G_CALLBACK (Details_Utilisateurs),liste_users[i].id_utilisateur);
+      g_signal_connect (button, "clicked",Details_Utilisateurs,liste_users[i].id_utilisateur);
       }
-       //g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (helloWorld), (gpointer) window);
+       //g_signal_connect (G_OBJECT (button), "clicked",Editer_Utilisateur,liste_users[i].id_utilisateur);
 
       if(j==3) {
       button = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);

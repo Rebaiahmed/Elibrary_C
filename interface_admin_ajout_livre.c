@@ -50,7 +50,7 @@ if(strlen(titre)==0 || strlen(auteur)==0 || strlen(maison)==0 || strlen(categori
 {
 
 printf("erreur dans l'ajout valider les donnes \n");
-
+dialog_erreur_donnees_livre(win);
 }
 
 else

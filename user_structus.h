@@ -33,6 +33,7 @@ struct Emprunt
     int Utilisateur_id_utilisateur ;
     int Livre_id_livre ;
 
+    //associer LIvre et utilisateur
 
 
 };

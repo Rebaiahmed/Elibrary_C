@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <mysql/mysql.h>
 #include "user_structs.h"
 #include "user_functions.h"
 #include "user_interfaces.h"
@@ -139,3 +138,102 @@ void dialog_succes_ajout( gpointer window)
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
 }
+
+
+
+void dialog_erreur_donnees_livre( gpointer window)
+{
+ GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "Vous devez valider tous les champs");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+
+
+
+
+void dialog_erreur_suppression( gpointer window)
+{
+ GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "Impossible de supprime le livre");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+//**********************************//
+
+void dialog_succes_suppression( gpointer window)
+
+ {
+
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK,
+            "Succes de suppression");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+///******************************//
+
+void dialog_erreur_suppression_user( gpointer window)
+{
+ GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "Impossible de supprimer l'utilisateur");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Error");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+
+void dialog_succes_valider_emprunt( gpointer window)
+
+ {
+
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK,
+            "emprunt validée");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+
+
+
+
+void dialog_succes_emprunter( gpointer window)
+
+ {
+
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK,
+            "emprunt validée");
+  gtk_window_set_title(GTK_WINDOW(dialog), "Information");
+  gtk_dialog_run(GTK_DIALOG(dialog));
+  gtk_widget_destroy(dialog);
+}
+

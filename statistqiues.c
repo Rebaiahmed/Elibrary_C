@@ -23,6 +23,22 @@ gchar* utilisateurs;
 GtkWidget *text_livres , *text_utilisateurs , *text_emprunts_retards , *text_emprunts_encours , * text_emprunts_totale ;
 
 
+
+
+//*************************Récuperer les données de la base de donénes***************//
+
+
+int nb_livres = Nombre_Livres_Totale ();
+int nb_emprtuns_retard = Nombre_Emprunts_En_Reatrd ();
+int nb_emprunts_en_cours = Nombre_Emprunts_EnCours ();
+int nb_emprunts_totale = Nombre_Emprunts_Totale ();
+int nb_users_totale = Nombre_utilisateurs_Totale ();
+
+
+
+
+
+
 //défénir notre fentre ***********************//
 
 window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -54,32 +70,37 @@ gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
         text_emprunts_encours=gtk_label_new(NULL);
         text_emprunts_totale=gtk_label_new(NULL);
 
-     livres= g_locale_to_utf8("<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez 12 livres</span>\n",
-        -1, NULL, NULL, NULL);
-          emprunt_retard = g_locale_to_utf8("<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez 2 emprunts en retard</span>\n",
-        -1, NULL, NULL, NULL);
-          emprunt_totale = g_locale_to_utf8("<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez 10 emprunts au totale</span>\n",
-        -1, NULL, NULL, NULL);
-          empruntcours = g_locale_to_utf8("<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez 5 emprunts en cours</span>\n",
-        -1, NULL, NULL, NULL);
 
-   utilisateurs = g_locale_to_utf8("<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez 10 utilisateurs au totale</span>\n",
+        //sprintf(livres,"%s%d","<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez" ,nb_livres,"</span>\n");
+        //livres= g_locale_to_utf8(livres,-1, NULL, NULL, NULL);
+        /*sprintf(emprunt_retard,"<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez %d emprunts en retard</span>\n",nb_emprtuns_retard);
+          emprunt_retard = g_locale_to_utf8(emprunt_retard,
         -1, NULL, NULL, NULL);
+        sprintf(emprunt_totale,"<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez %d emprunts au totale</span>\n",nb_emprunts_totale);
+          emprunt_totale = g_locale_to_utf8(emprunt_totale,
+        -1, NULL, NULL, NULL);
+        sprintf(empruntcours,"<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez %d emprunts en cours</span>\n",nb_emprunts_en_cours);
+          empruntcours = g_locale_to_utf8(empruntcours,
+        -1, NULL, NULL, NULL);
+        sprintf(utilisateurs,"<span font_desc=\"Times New Roman italic 12\" foreground=\"#0000FF\">Vous avez %d utilisateurs au totale</span>\n",nb_users_totale );
+
+   utilisateurs = g_locale_to_utf8(utilisateurs,
+        -1, NULL, NULL, NULL);*/
 
 
 
 
-    gtk_label_set_markup(GTK_LABEL(text_livres),livres);
+    /*gtk_label_set_markup(GTK_LABEL(text_livres),livres);
     gtk_label_set_markup(GTK_LABEL(text_utilisateurs),utilisateurs);
     gtk_label_set_markup(GTK_LABEL(text_emprunts_retards), emprunt_retard );
     gtk_label_set_markup(GTK_LABEL(text_emprunts_encours),empruntcours);
-    gtk_label_set_markup(GTK_LABEL(text_emprunts_totale), emprunt_totale );
- //*******************************************************************************//
-g_free(livres);
+    gtk_label_set_markup(GTK_LABEL(text_emprunts_totale), emprunt_totale );*/
+ //*******************************************************************************/
+/*g_free(livres);
 g_free(utilisateurs);
 g_free(emprunt_retard );
 g_free(empruntcours);
-g_free(emprunt_totale);
+g_free(emprunt_totale);*/
 
 
 //**************************************************//
@@ -89,7 +110,7 @@ gtk_fixed_put(GTK_FIXED(fixed),text_utilisateurs,170,200);
 gtk_fixed_put(GTK_FIXED(fixed),text_emprunts_retards,170,230);
 gtk_fixed_put(GTK_FIXED(fixed),text_emprunts_encours,170,260);
 gtk_fixed_put(GTK_FIXED(fixed),text_emprunts_totale,170,290);
-//*******************************************************//
+//*******************************************************///
 
 
 

@@ -65,9 +65,9 @@ GtkWidget *vbox;
   //************************Récupere currentUser
       int idUser = Getsession();
 //printf("teh currentUser is %d \n",idUser);
- Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
-user = getCurrentUser(idUser);
-int nb_emprunts = Nb_emprunts_En_Cours(idUser);
+  Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
+  user = getUser(idUser);
+   int nb_emprunts = Nb_emprunts_En_Cours(idUser);
 struct Emprunt liste_emprunts[nb_emprunts];
 liste_Emprunts_Utilisateurs_En_Cours(idUser,liste_emprunts);
 

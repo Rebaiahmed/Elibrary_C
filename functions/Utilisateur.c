@@ -22,9 +22,13 @@ void finish_with_error(MYSQL *con)
     exit(1);
 }
 
+
+//***********************************************//
+
+
 void Connectdb(MYSQL *con){
 
-printf("connectDb \n");
+printf("hhhdhdhh \n");
     if (con == NULL)
     {
         fprintf(stderr, "mysql_init() failed\n");
@@ -33,7 +37,7 @@ printf("connectDb \n");
     if (mysql_real_connect(con, "localhost", "root", "root",
           "ELIBRARY", 0, NULL, 0) == NULL)
     {
-    printf("hehhehhehehhehe");
+
       finish_with_error(con);
     }
 }
@@ -169,24 +173,72 @@ return res;
 
 
 //*********************************************//
-void Creer_Emprunt(Emprunt* emp)
+int Creer_Emprunt(Emprunt* emp)
 {
-int res=0;
+   int res;
     MYSQL *con = mysql_init(NULL);
     Connectdb(con);
-    char querry[350];
-    sprintf(querry,"insert into Emprunt Values(NULL,'%s','%s','%s','%d','%d');",
-    emp->date_emprunt, emp->date_retour,emp->etat,emp->Utilisateur_id_utilisateur,emp->Livre_id_livre);
 
-    res = mysql_query(con, querry);
+    //*******************on va récupere le livre pour vérifier le nombre d'exmplaires du livre******//
+
+    char query1[60];
+
+    sprintf(query1,"select nb_examplaires_disponibles FROM Livre where id_livre='%d'",emp->Livre_id_livre);
+   mysql_query(con,query1);
+     MYSQL_RES *result = mysql_store_result(con);
+    MYSQL_ROW row=mysql_fetch_row(result);
+
+
+printf("nombre exmplaires du livre dispon sont %s \n",row[0]);
+
+if(atoi(row[0])==0)
+{
+
+printf("emprunt impossible \n");
+res=-1;
+mysql_close(con);
+//la date du prochain emprunt est !!!!!!!!!!!!!!!!!
+//sélectionner le derneier emprunt du livre pour réucpere la date de retour(a faire nchl)!!!
+}else
+{
+
+ mysql_free_result(result);
+
+
+ //Connectdb(con);
+ char query2[50];
+
+
+printf("we are here \n");
+
+    sprintf(query2,"insert into `Emprunt`  Values(%d,'%s','%s','en_attente',%d,%d);",
+    NULL,NULL,NULL,emp->Utilisateur_id_utilisateur,emp->Livre_id_livre);
+
+    printf("%s ",query2);
+
+    if(mysql_query(con,query2))
+    {
+       finish_with_error(con);
+    }
+
+
+
+ //***********************emprunt avec succées*********************//
+
+ res=1;
+}
+
 
 
 mysql_close(con);
+printf("tehr esult fo query est %d \n", res);
 
 return res ;
 
 }
 
+
+//***************************************************************************//
 
 void deconnecter(GtkWidget *win,gpointer p)
 {
@@ -196,7 +248,7 @@ void deconnecter(GtkWidget *win,gpointer p)
  login_interface(win);
 }
 
-
+//****************************************************//
 
 int Modifier_Profile(Utilisateur* utili)
 {
@@ -493,6 +545,8 @@ mysql_close(con);
 }
 
 
+//********************************************//
+
 
 
 int Getsession(){
@@ -502,6 +556,10 @@ int Getsession(){
     fscanf(fichier, "%d", &id);
     return id;
 }
+
+
+
+//*************************************************//
 
 void SaveUser(int idUser)
 {
@@ -514,7 +572,7 @@ fclose(fichier);
 
 //**************************GetCurrentUser******************************//
 
-struct Utilisateur *getCurrentUser(int idUser)
+struct Utilisateur *getUser(int idUser)
 {
 
  Utilisateur *user  = (Utilisateur *)malloc(sizeof(Utilisateur));
@@ -580,6 +638,114 @@ int check_Telephone(char * Numcin)
 return 0;
 }
 
+
+//************************Trier les Livres *****************//
+
+void Trier_Livres_Auteur(struct Livre liste_Livres[])
+
+{
+//ici pour trier la liste des livres
+ MYSQL *con = mysql_init(NULL);
+    Connectdb(con);
+    char query[50];
+    char query2[350];
+    int i =0;
+
+    sprintf(query,"select * from Livre ORDER BY Auteur ASC");
+
+
+mysql_query(con,query);
+MYSQL_RES *result = mysql_store_result(con);
+MYSQL_ROW row;
+
+ while ((row = mysql_fetch_row(result)))
+        {
+                 printf("row est %s ,%s ,%s ,%s ,%s ,%s \n",row[0],row[1],row[2],row[3],row[4],row[5]);
+                 //liste_emprunts[i]= row;
+
+liste_Livres[i].id_livre= (int)row[0];
+strcpy(liste_Livres[i].Titre,row[1]);
+//printf("le titre sera  %s \n",liste_Livres[i].Titre);
+strcpy(liste_Livres[i].Auteur,row[2]);
+//printf("l'auteur sera  %s \n",liste_Livres[i].Auteur);
+strcpy(liste_Livres[i].maison_edition,row[3]);
+//printf("l'maison edition sera  %s \n",liste_Livres[i].maison_edition);
+liste_Livres[i].prix= atof(row[4]);
+//printf(" prix  %f \n",liste_Livres[i].prix);
+liste_Livres[i].nb_emprunts= atoi(row[5]);
+//printf(" nb emprunts %d \n",liste_Livres[i].nb_emprunts);
+liste_Livres[i].nb_examplaires_disponibles=atoi(row[6]);
+//printf(" nb exmplaires dipsonibles %d \n",liste_Livres[i].nb_examplaires_disponibles);
+strcpy(liste_Livres[i].categorie,row[7]);
+//printf(" categorie %s \n",liste_Livres[i].categorie);
+strcpy(liste_Livres[i].ISBN_livre,row[8]);
+
+
+i++ ;
+        }
+
+
+      // printf("test svp e5dheem %s   \n",liste_emprunts[0].date_emprunt);
+
+mysql_close(con);
+
+
+
+
+}
+
+void Trier_Livres_Titre(struct Livre liste_Livres[])
+
+{
+//ici pour trier la liste des livres
+ MYSQL *con = mysql_init(NULL);
+    Connectdb(con);
+    char query[50];
+    char query2[350];
+    int i =0;
+
+    sprintf(query,"select * from Livre ORDER BY Auteur ASC ");
+
+
+mysql_query(con,query);
+MYSQL_RES *result = mysql_store_result(con);
+MYSQL_ROW row;
+
+ while ((row = mysql_fetch_row(result)))
+        {
+                 printf("row est %s ,%s ,%s ,%s ,%s ,%s \n",row[0],row[1],row[2],row[3],row[4],row[5]);
+                 //liste_emprunts[i]= row;
+
+liste_Livres[i].id_livre= (int)row[0];
+strcpy(liste_Livres[i].Titre,row[1]);
+//printf("le titre sera  %s \n",liste_Livres[i].Titre);
+strcpy(liste_Livres[i].Auteur,row[2]);
+//printf("l'auteur sera  %s \n",liste_Livres[i].Auteur);
+strcpy(liste_Livres[i].maison_edition,row[3]);
+//printf("l'maison edition sera  %s \n",liste_Livres[i].maison_edition);
+liste_Livres[i].prix= atof(row[4]);
+//printf(" prix  %f \n",liste_Livres[i].prix);
+liste_Livres[i].nb_emprunts= atoi(row[5]);
+//printf(" nb emprunts %d \n",liste_Livres[i].nb_emprunts);
+liste_Livres[i].nb_examplaires_disponibles=atoi(row[6]);
+//printf(" nb exmplaires dipsonibles %d \n",liste_Livres[i].nb_examplaires_disponibles);
+strcpy(liste_Livres[i].categorie,row[7]);
+//printf(" categorie %s \n",liste_Livres[i].categorie);
+strcpy(liste_Livres[i].ISBN_livre,row[8]);
+
+
+i++ ;
+        }
+
+
+      // printf("test svp e5dheem %s   \n",liste_emprunts[0].date_emprunt);
+
+mysql_close(con);
+
+
+
+
+}
 
 
 
